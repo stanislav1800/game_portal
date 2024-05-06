@@ -1,0 +1,28 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}
+Ответы на объявления
+{% endblock title %}
+
+{% block content %}
+    <h1>Ответы на объявления пользователя</h1>
+    <a href="{% url 'author_response_list' author_id=request.user.profile.id %}">Все отклики</a>
+    <a href="{% url 'author_response_list' author_id=request.user.profile.id %}?accepted=True">Принятые отклики</a>
+    <a href="{% url 'author_response_list' author_id=request.user.profile.id %}?accepted=False">Непринятые отклики</a>
+
+    {% for response in object_list %}
+        <div>
+            <h2>Объявление: {{ response.bulletin.header }}</h2>
+            <p>{{ response.text }}</p>
+            <p>От: {{ response.author.user.username }}</p>
+            {% if response.accepted %}
+                <p>Принят</p>
+            {% else %}
+                <a href="{% url 'response_update' pk=response.pk %}">Принять отклик</a>
+                <a href="{% url 'response_delete' pk=response.pk %}">Отклонить отклик</a>
+            {% endif %}
+        </div>
+    {% empty %}
+        <p>Нет ответов на объявления.</p>
+    {% endfor %}
+{% endblock %}

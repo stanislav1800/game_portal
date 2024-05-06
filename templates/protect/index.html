@@ -1,0 +1,30 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}
+News
+{% endblock title %}
+
+
+{% block content %}
+
+<div class="card   my-5 py-4 ">
+    <div class="card-body text-center">
+        <h2>Страница авторизованного пользователя {{request.user.username}}</h2>
+        <div> Здесь может содержаться персональная информация для каждого пользователя </div>
+    </div>  
+    <div class="card-footer">
+        {% if is_not_authors %}
+            <a class="btn btn-primary btn-sm" href="{% url 'upgrade' %}"> Стать автором</a> 
+        {% endif %}
+        <a class="btn btn-primary btn-sm" href="sign/logout/">Выйти</a>
+        <form action="{% url 'logout'  %}" method="post">
+    {% csrf_token %}
+    <input type="submit" value="Выйти">
+    </form>
+    </div>
+
+</div> 
+
+
+
+{% endblock %}

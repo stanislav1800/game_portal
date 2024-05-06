@@ -1,0 +1,49 @@
+{% extends 'flatpages/default.html' %}
+{% load static %}
+<script src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+
+{% block title %}
+News portal
+{% endblock title %}
+
+{% block content %}
+<div class="card my-5 py-4">
+    <div class="card-body text-center">
+        <h1 class="font-weight-light">Создать публикацию</h1>
+    </div>
+    <div class="card-footer text-center">
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form.media }}
+           <p> {{ form.header }}</p>
+            <p>{{ form.text|safe }}</p>
+<!--            <textarea name="text" id="id_text"></textarea>-->
+            <p>{{ form.category }}</p>
+            <input class="btn btn-primary btn-sm" type="submit" value="Save" />
+        </form>
+    </div>
+</div>
+{% endblock content %}
+<script>
+    var editor = CKEDITOR.replace('id_text', {
+        toolbarGroups: [
+            { name: 'document', groups: ['mode', 'document', 'doctools'] },
+            { name: 'clipboard', groups: ['clipboard', 'undo'] },
+            { name: 'editing', groups: ['find', 'selection', 'spellchecker'] },
+            { name: 'forms' },
+            '/',
+            { name: 'basicstyles', groups: ['basicstyles', 'cleanup'] },
+            { name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi'] },
+            { name: 'links' },
+            { name: 'insert' },
+            '/',
+            { name: 'styles' },
+            { name: 'colors' },
+            { name: 'tools' },
+            { name: 'others' },
+            { name: 'about' }
+        ],
+        // Remove the redundant buttons from toolbar groups defined above
+        removeButtons: 'Underline,Strike,Subscript,Superscript,Anchor,Styles,Specialchar'
+    });
+</script>

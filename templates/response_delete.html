@@ -1,0 +1,15 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}
+Удалить отклик
+{% endblock title %}
+
+{% block content %}
+    <h1>Удалить отклик?</h1>
+    <p>{{ object.text }}</p>
+    <form method="post">
+        {% csrf_token %}
+        <input type="submit" value="Удалить">
+        <a href="{% url 'author_response_list' author_id=request.user.profile.id %}">Отмена</a>
+    </form>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}
+News portal
+{% endblock title %}
+
+
+
+{% block content %}
+
+<div class="card   my-5 py-4 ">
+    <div class="card-body text-center">
+        <form action="" method="post">
+            {% csrf_token %}
+            <p>Удаление публикации "{{ bulletin }}"?</p>
+            <input class="btn btn-primary btn-sm " type="submit" value="Delete" />
+        </form>
+    </div>
+
+</div>
+
+
+{% endblock content %}

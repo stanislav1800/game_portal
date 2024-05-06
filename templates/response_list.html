@@ -1,0 +1,31 @@
+{% extends 'flatpages/default.html' %}
+
+
+{% block title %}
+News
+{% endblock title %}
+
+
+
+
+
+{% block content %}
+  <h1>Ответы на объявление: {{ bulletin.title }}</h1>
+
+  {% for response in responses %}
+    <div>
+      <p>Автор: {{ response.author.user.username }}</p>
+      <p>{{ response.content }}</p>
+      <!-- Здесь можно добавить форму для ответа на данный ответ -->
+    </div>
+  {% endfor %}
+
+  <!-- Форма для создания нового ответа -->
+  <form method="post" action="{% url 'response_create' bulletin.pk %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Отправить ответ</button>
+  </form>
+
+
+    {% endblock content %}

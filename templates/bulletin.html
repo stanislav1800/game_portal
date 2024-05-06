@@ -1,0 +1,36 @@
+{% extends 'flatpages/default.html' %}
+
+
+{% block title %}
+News
+{% endblock title %}
+
+<!-- {% block nav %}
+    {% if request.user.is_staff == True %}
+        <li class="nav-item"><a class="nav-link active" aria-current="page" href="/">Профиль</a></li>  
+        <li class="nav-item"><a class="nav-link active" aria-current="page" href="/news/articles/create/">Создать Статью</a></li>  
+        <li class="nav-item"><a class="nav-link active" aria-current="page" href="/news/create/">Создать Новость</a></li>  
+    {% else %}
+        <li class="nav-item"><a class="nav-link active" aria-current="page" href="/sign/signup/">Регистрация</a></li>     
+        <li class="nav-item"><a class="nav-link active" aria-current="page" href="/sign/login/">Авторизация</a></li>   
+    {% endif%} 
+{% endblock nav %} -->
+    {% block content %}
+        <div class="card   my-5 py-4 ">
+            <div class="card-body text-center">
+                <h1 class="font-weight-light">{{ bulletin.heading }}</h1>
+                <h1>{{ bulletin.date|date:'d M Y' }} </h1>
+            </div>
+            <div class="card-footer">
+                <p class="card-text">{{ bulletin.text|safe }}</p>
+            </div>
+            <div class="card-footer"><a class="btn btn-primary btn-sm" href="{% url 'bulletin_delete' bulletin.pk %}">Удалить</a>
+<a class="btn btn-primary btn-sm" href="{% url 'bulletin_edit' bulletin.pk %}">Редактировать</a></div>
+        <h3>Оставить Отклик</h3>
+    <form method="post" action="{% url 'response_create' bulletin.pk %}">
+        {% csrf_token %}
+        {{ response_form.as_p }}
+        <button type="submit">Отправить</button>
+    </form>
+        </div>
+    {% endblock content %}

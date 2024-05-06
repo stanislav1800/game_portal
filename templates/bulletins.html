@@ -1,0 +1,73 @@
+{% extends 'flatpages/default.html' %}
+
+
+
+{% block title %}
+News portal
+{% endblock title %}
+
+
+
+{% block content %}
+    <div class="card text-white bg-secondary my-5 py-4 text-center">
+        <div class="card-body"><p class="text-white m-0">Всего публикаций: {{ bulletins|length}}</p>  </div>
+        
+    </div>
+<!-- Content Row-->
+    <div class="row gx-4 gx-lg-5">
+        {% if bulletins %}
+            {% for bulletin in bulletins %}
+        <div class="col-md-4 mb-5">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">{{ bulletin.header }} </h5>
+                    <h4 class="card-title">{{ bulletin.date|date:'d M Y' }}</h4>
+                    <p class="card-text">{{ bulletin.text|striptags|truncatewords:20 }}</p>
+                    <p class="card-text">
+    {% for category in bulletin.bulletintocategory_set.all %}
+                        <a href="{% url 'category_list' category.category.id %}">{{ category.category.name }}</a>
+       {% if not forloop.last %}, {% endif %}
+    {% empty %}
+        Нет категорий
+    {% endfor %}
+</p>
+
+                </div>
+                <div class="card-footer"><a class="btn btn-primary btn-sm" href={{bulletin.get_absolute_url}}>Читать дальше</a></div>
+            </div>
+        </div>
+            {% endfor %}       
+        {% else %}
+        <div class="card   my-5 py-4 ">
+            <div class="card-body text-center">
+                <h1 class="font-weight-light">Постов нет!</h1>    
+            </div>  
+        </div> 
+        {% endif %}
+        <div class="card text-white bg-secondary my-5 py-4 text-center"><p>
+        {# Добавляем пагинацию на страницу #}
+
+        {# Информация о предыдущих страницах #}
+        {% if page_obj.has_previous %}
+            <a class=" text-white " href="?page=1">1</a>
+            {% if page_obj.previous_page_number != 1 %}
+                ...
+                <a class=" text-white " href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+            {% endif %}
+        {% endif %}
+     
+        {# Информация о текущей странице #}
+        {{ page_obj.number }}
+     
+        {# Информация о следующих страницах #}
+        {% if page_obj.has_next %}
+            <a class=" text-white " href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+            {% if paginator.num_pages != page_obj.next_page_number %}
+                ...
+                <a class=" text-white " href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+            {% endif %}
+        {% endif %}
+    </p></div>
+</div>
+{% endblock content %}
+
